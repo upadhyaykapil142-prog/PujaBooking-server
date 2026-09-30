@@ -29,7 +29,9 @@ const {
 } = require("./services/emailService");
 const PORT = process.env.PORT || 5000;
 
-const FRONTEND_URL = "http://localhost:5175";
+const FRONTEND_URL =
+  process.env.FRONTEND_URL ||
+  "http://localhost:5175";
 
 const ALLOWED_ORIGINS = [
   "http://localhost:5175",
@@ -71,17 +73,11 @@ async function connectDB() {
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) {
-        return callback(null, true);
-      }
-
-      if (ALLOWED_ORIGINS.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Not allowed by CORS"));
-    },
+    origin: [
+      "http://localhost:5175",
+      "https://panditkishanupadh.in",
+      "https://www.panditkishanupadh.in",
+    ],
     credentials: true,
   })
 );
@@ -97,13 +93,13 @@ app.use(
     resave: false,
 
     saveUninitialized: false,
-
-    cookie: {
-      httpOnly: true,
-      secure: false,
-      maxAge:
-        7 * 24 * 60 * 60 * 1000,
-    },
+cookie: {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge:
+    7 * 24 * 60 * 60 * 1000,
+},
   })
 );
 
