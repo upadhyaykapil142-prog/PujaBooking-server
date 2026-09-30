@@ -8,6 +8,7 @@ dns.setServers([
 ]);
 
 const express = require("express");
+const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const session = require("express-session");
@@ -26,11 +27,15 @@ const {
   sendAdminPanditAssignedEmail,
   sendAdminBookingCompletedEmail,
 } = require("./services/emailService");
+const PORT = process.env.PORT || 5000;
 
-const app = express();
-
-const PORT = 5000;
 const FRONTEND_URL = "http://localhost:5175";
+
+const ALLOWED_ORIGINS = [
+  "http://localhost:5175",
+  "https://panditkishanupadh.in",
+  "https://www.panditkishanupadh.in",
+];
 
 // ============================================
 // DATABASE
@@ -66,7 +71,17 @@ async function connectDB() {
 
 app.use(
   cors({
-    origin: FRONTEND_URL,
+    origin: function (origin, callback) {
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (ALLOWED_ORIGINS.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   })
 );
