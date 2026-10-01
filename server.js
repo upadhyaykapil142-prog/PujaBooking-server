@@ -37,6 +37,8 @@ const ALLOWED_ORIGINS = [
   "http://localhost:5175",
   "https://panditkishanupadh.in",
   "https://www.panditkishanupadh.in",
+  "https://panditkishanupadhyay.in",
+  "https://www.panditkishanupadhyay.in",
 ];
 
 // ============================================
@@ -77,6 +79,8 @@ app.use(
       "http://localhost:5175",
       "https://panditkishanupadh.in",
       "https://www.panditkishanupadh.in",
+      "https://panditkishanupadhyay.in",
+      "https://www.panditkishanupadhyay.in",
     ],
     credentials: true,
   })
