@@ -13,8 +13,9 @@ passport.use(
       clientSecret:
         process.env.GOOGLE_CLIENT_SECRET,
 
-      callbackURL:
-        process.env.GOOGLE_CALLBACK_URL,
+            callbackURL:
+        process.env.GOOGLE_CALLBACK_URL ||
+        "https://pujabooking-server.onrender.com/auth/google/callback",
     },
 
     async (
